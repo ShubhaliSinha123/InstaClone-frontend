@@ -18,12 +18,6 @@ const inputStateReducer = (state, action) => {
       isTouched: true,
     };
   }
-  if (action.type === "RESET") {
-    return {
-      value: "",
-      isTouched: false,
-    };
-  }
   return inputStateReducer;
 };
 
@@ -48,11 +42,6 @@ const useInput = (validateValue) => {
     });
   };
 
-  const reset = () => {
-    dispatch({
-      type: "RESET",
-    });
-  };
 
   return {
     value: inputState.value,
@@ -60,7 +49,6 @@ const useInput = (validateValue) => {
     hasError,
     valueChangeHandler,
     inputBlurHandler,
-    reset,
   };
 };
 

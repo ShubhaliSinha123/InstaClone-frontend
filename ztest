@@ -1,0 +1,27 @@
+
+    // <>
+    //   {resultData.map((data, id) => (
+    //     <table key={id} cellPadding="10px">
+    //       <tbody>
+    //         <tr>
+    //           <td><u>{data.userId.name}</u></td>
+    //           <td style={{width: '300px'}}>{data.userId.email}</td>
+    //         </tr>
+    //         <tr>
+    //           <td>{data.title}</td>
+    //         </tr>
+    //         <tr>
+    //           <td colSpan="2"><img src={data.images} style={{width: "640px", height: "200px"}} alt={data.alt} /></td>
+    //         </tr>
+    //       <tr>
+    //       <td colSpan="2">{data.caption}</td>
+    //       </tr>
+    //       <tr>
+    //         <td colSpan="2" style={{color: "gray"}}><ul>{data.comments.map((comment, id) => (
+    //           <li key={id}>{comment.comments}</li>
+    //         ))}</ul></td>
+    //       </tr>
+    //       </tbody>
+    //     </table>
+    //   ))}
+    // </>

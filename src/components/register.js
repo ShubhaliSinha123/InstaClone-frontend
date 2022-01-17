@@ -1,8 +1,8 @@
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import useInput from "../hooks/use-input";
 
 const Register = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     value: name,
@@ -10,7 +10,6 @@ const Register = () => {
     hasError: nameInputHasError,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-    reset: resetNameInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -19,7 +18,6 @@ const Register = () => {
     hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
   } = useInput((value) => value.includes("@gmail.com"));
 
   const {
@@ -27,8 +25,7 @@ const Register = () => {
     isValid: enteredPhoneIsValid,
     hasError: phoneInputHasError,
     valueChangeHandler: phoneChangeHandler,
-    inputBlurHandler: phoneBlurHandler,
-    reset: resetPhoneInput,
+    inputBlurHandler: phoneBlurHandler
   } = useInput((value) => value.length === 8);
 
   const {
@@ -37,7 +34,6 @@ const Register = () => {
     hasError: passwordInputHasError,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -46,7 +42,6 @@ const Register = () => {
     hasError: CpasswordInputHasError,
     valueChangeHandler: CpasswordChangeHandler,
     inputBlurHandler: CpasswordBlurHandler,
-    reset: resetCPasswordInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -55,7 +50,6 @@ const Register = () => {
     hasError: roleInputHasError,
     valueChangeHandler: roleChangeHandler,
     inputBlurHandler: roleBlurHandler,
-    reset: resetRoleInput,
   } = useInput((value) => value.trim() !== "");
 
   let formIsValid = false;
@@ -108,15 +102,9 @@ const Register = () => {
       window.alert("Registeration successful");
       console.log("Registeration successful");
 
-      history.push('/login');
+      navigate('/login');
     }
-    
-          resetNameInput();
-          resetEmailInput();
-          resetPhoneInput();
-          resetPasswordInput();
-          resetCPasswordInput();
-          resetRoleInput();
+
   };
 
   const nameClasses = nameInputHasError ? "form-control invalid" : "form-control ";
@@ -127,7 +115,7 @@ const Register = () => {
   const roleClasses = roleInputHasError ? "form-control invalid" : "form-control ";
 
   return (
-    <form>
+    <form className="app">
       <div className={nameClasses}>
         <label htmlFor="name">Name</label>
         <input

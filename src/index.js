@@ -1,11 +1,14 @@
-import ReactDOM from 'react-dom';
-import { BrowserRouter} from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.css';
-import App from './App';
+import "./index.css";
+import App from "./app";
+// import { SocialIcon } from 'react-social-icons';
 
 ReactDOM.render(
-    <BrowserRouter>
-<App />
-</BrowserRouter>
-, document.getElementById('root'));
+  <React.StrictMode>
+    {/* <SocialIcon url="https://instagram.com/jaketrent" /> */}
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);

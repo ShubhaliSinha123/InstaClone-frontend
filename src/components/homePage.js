@@ -6,7 +6,8 @@ const HomePage = () => {
       <div style={{ float: "center" }}>
         Hello! <br /> This is an Instagram Page.
       </div>
-      <NavLink to="/posts"> Posts </NavLink>
+      <NavLink to="/posts"> Posts </NavLink><br />
+      <NavLink to="/mainPage">MainPage</NavLink>
     </>
   );
 };

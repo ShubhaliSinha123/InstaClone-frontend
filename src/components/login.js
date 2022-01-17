@@ -1,15 +1,15 @@
 import useInput from "../hooks/use-input";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = (props) => {
-  const history = useHistory();
+  
+  const navigate = useNavigate();
   const {
     value: email,
     isValid: enteredEmailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
   } = useInput((value) => value.includes("@gmail.com"));
 
   const {
@@ -18,7 +18,6 @@ const Login = (props) => {
     hasError: passwordInputHasError,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) => value.trim() !== "");
 
   let formIsValid = false;
@@ -28,14 +27,12 @@ const Login = (props) => {
   }
 
   const formSubmitHandler = async (event) => {
+
     event.preventDefault();
 
     if (!enteredEmailIsValid && !enteredPasswordIsValid) {
       return;
     }
-
-    console.log(email);
-    console.log(password);
 
     const result = await fetch("/auth/login", {
       method: "POST",
@@ -52,20 +49,13 @@ const Login = (props) => {
 
     if(data.status === 404 || !data) {
       window.alert("Login failed!");
-      console.log("Login failed!");
     } else {
-      console.log(data.jwtoken);
+      localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('token', data.jwtoken);
-      const setu = localStorage.getItem('token');
-      console.log(setu);
       window.alert("Successfully logged in!");
-      console.log("Successfully logged in!");
 
-      history.push('/homePage');
+      navigate('/dashboard');
     }
-
-    resetEmailInput();
-    resetPasswordInput();
   };
 
   const emailInputClasses = emailInputHasError
@@ -76,6 +66,7 @@ const Login = (props) => {
     : "form-control";
 
   return (
+    <div className="app">
     <form onSubmit={formSubmitHandler} method="POST">
       <div className={emailInputClasses}>
         <label htmlFor="email">E-mail</label>
@@ -108,6 +99,7 @@ const Login = (props) => {
         <button disabled={!formIsValid}>Login</button>
       </div>
     </form>
+    </div>
   );
 };
 

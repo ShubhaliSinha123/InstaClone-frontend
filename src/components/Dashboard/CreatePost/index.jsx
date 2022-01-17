@@ -1,8 +1,8 @@
-import useInput from "../hooks/use-input";
-import { useHistory } from "react-router";
+import useInput from "../../../hooks/use-input";
+import { useNavigate } from "react-router";
 
-const Posts = () => {
-    const history = useHistory();
+const CreatePost = () => {
+    const navigate = useNavigate();
 
   const {
     value: title,
@@ -10,7 +10,6 @@ const Posts = () => {
     hasError: titleInputHasError,
     valueChangeHandler: titleChangeHandler,
     inputBlurHandler: titleBlurHandler,
-    reset: resetTitleInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -19,8 +18,7 @@ const Posts = () => {
     hasError: imageInputHasError,
     valueChangeHandler: imageChangeHandler,
     inputBlurHandler: imageBlurHandler,
-    reset: resetImageInput,
-  } = useInput((value) => value.includes('.jpg'));
+  } = useInput((value) => value.includes('http'));
 
   const {
     value: caption,
@@ -28,7 +26,6 @@ const Posts = () => {
     hasError: captionInputHasError,
     valueChangeHandler: captionChangeHandler,
     inputBlurHandler: captionBlurHandler,
-    reset: resetCaptionInput,
   } = useInput((value) => value.trim() !== "");
 
   let formIsValid = false;
@@ -45,12 +42,12 @@ const Posts = () => {
     }
 
     const token = localStorage.getItem('token');
-    console.log(token);
+    
     const result = await fetch("/create-post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": token
+        "x-access-token": token,
       },
       body: JSON.stringify({
         title,
@@ -72,11 +69,9 @@ const Posts = () => {
       window.alert("Post created successfully!");
       console.log("Post created successfully!");
 
-      history.push("/mainPage");
+      navigate("/dashboard");
     }
-    resetTitleInput();
-    resetImageInput();
-    resetCaptionInput();
+
   };
 
   const titleClasses = titleInputHasError 
@@ -102,7 +97,7 @@ const Posts = () => {
           onBlur= {titleBlurHandler}
           value={title}
         />
-        {titleInputHasError && <p>Password field cannot be empty!</p>}
+        {titleInputHasError && <p>Title cannot be empty!</p>}
       </div>
       <div className={imageClasses}>
         <label htmlFor="images">Image</label>
@@ -133,4 +128,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default CreatePost;
