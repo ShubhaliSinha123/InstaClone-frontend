@@ -66,19 +66,20 @@ body {
 
 button {
   font: inherit;
-  background-color: #240370;
-  color: white;
-  border: 1px solid #240370;
+  background-color: white;
+  color: grey;
+  border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
+  margin-left: 25%;
   cursor: pointer;
 }
 
 button:disabled,
 button:disabled:hover,
 button:disabled:active{
-  background-color: #ccc;
-  color: #292929;
+  background-color: white;
+  color: black;
   border-color: #ccc;
   cursor: not-allowed;
 }
@@ -86,7 +87,8 @@ button:disabled:active{
 
 button:hover,
 button:active {
-  background-color: #33059e;
+  background-color: white;
+  color: black;
   border-color: #33059e;
 }
 

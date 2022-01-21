@@ -6,7 +6,8 @@ const [isModalVisible, setisModalVisible] = useState(false);
 
 useEffect(() => {
     setisModalVisible(props.showModal);
-}, [props.showModal]);
+    console.log(props.data);
+}, [props.showModal, props.data]);
 
 const cancelHandler = () => {
     setisModalVisible(false);
