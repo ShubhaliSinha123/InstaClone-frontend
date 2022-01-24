@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CustomModal from "../../common/customModal";
+import SpringModal from "../../common/modal";
 
 import { Link } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -63,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header = () => {
   const navigate = useNavigate();
-  const [showModal, setshowModal] = useState(false);
+  const [showModal, setshowModal] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState(0);
@@ -91,7 +91,7 @@ const Header = () => {
       }
     };
     getNotifications();
-  }, []);
+  }, [token]);
 
   
 
@@ -102,8 +102,9 @@ const Header = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleNotification = () => {
-    // navigate('/notifications');
+  const handleNotification = (e) => {
+    e.preventDefault();
+    navigate('/notifications');
     setshowModal(true);
   };
 
@@ -249,10 +250,11 @@ const Header = () => {
               color="inherit"
               onClick={handleNotification}
             >
-              <Badge badgeContent={notifications} color="error">
+              <Badge badgeContent={notifications ? notifications : '0'} color="error">
                 <NotificationsIcon style={{ color: "grey" }} />
               </Badge>
             </IconButton>
+            
             <IconButton
               size="large"
               edge="end"
@@ -281,7 +283,7 @@ const Header = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {showModal && <CustomModal title="Hello" showModal={showModal} data={data} />}
+      {showModal && <SpringModal title="Hello" showModal={showModal} data={data} />}
     </Box>
   );
 };

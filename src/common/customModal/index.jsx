@@ -1,31 +1,30 @@
-import {Modal } from 'antd';
-import { useEffect, useState } from 'react';
+import React, { useState } from "react";
+import { Modal } from "antd";
 
 const CustomModal = (props) => {
-const [isModalVisible, setisModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(props.showModal);
 
-useEffect(() => {
-    setisModalVisible(props.showModal);
-    console.log(props.data);
-}, [props.showModal, props.data]);
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
 
-const cancelHandler = () => {
-    setisModalVisible(false);
-};
+  const handleCancel = (e) => {
+      console.log(e);
+    setIsModalVisible(false);
+  };
 
-    return (
-       <Modal title={props.title}
-       centered
-       visible= {isModalVisible}
-       onCancel={cancelHandler}
-       >
-           <>
-           <label htmlFor='email'>Email:</label><br />
-               <input type="text" id="email" />
-               </>
-       </Modal>
-
-    )
+  return (
+      <Modal
+        centered
+        title={props.title}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        destroyOnClose={props.destroyOnClose}
+      >
+        <p>Some contents...</p>
+      </Modal>
+  );
 };
 
 export default CustomModal;

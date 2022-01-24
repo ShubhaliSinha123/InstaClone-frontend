@@ -17,7 +17,7 @@ const DashboardRoutes = [
         url: '/profile',
         name: 'Profile',
         element: Profile
-    }
+    },
 ];
 
 export default DashboardRoutes;
