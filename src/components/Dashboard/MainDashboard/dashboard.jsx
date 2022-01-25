@@ -2,7 +2,8 @@ import { useState } from "react";
 import moment from "moment";
 
 import CustomModal from "../../../common/customModal";
-import classes from "../../../css/custom.module.css";
+import classes from "../../../assets/css/custom.module.css";
+
 
 import Card from "@mui/material/Card";
 import { CardHeader, IconButton } from "@mui/material";

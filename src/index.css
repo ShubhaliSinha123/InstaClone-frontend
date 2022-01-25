@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  background-color: whitesmoke;
+  background-color: rgb(245, 245, 245);
 }
 
 .app {
@@ -93,11 +93,14 @@ button:active {
 }
 
 .form-actions {
-  text-align: right;
+  text-align: left;
 }
 
 .form-actions button {
   margin-left: 0.5rem;
+  color: white;
+  width: 100%;
+  height: 37px;
 }
 
 .invalid input {
@@ -120,4 +123,15 @@ button:active {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.login-container {
+  background-color: whitesmoke;
+  padding: 0.3rem 3rem 0;
+  width: 50%;
+}
+
+.login-bg {
+  height: 100vh;
+  width: 50vw;
 }

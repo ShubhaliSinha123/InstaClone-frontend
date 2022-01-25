@@ -133,7 +133,7 @@ const Profile = () => {
           {showPicture &&
             resultData.map((data, id) => (
               <ImageListItem key={id}>
-                <applet key={id}>
+                <span key={id}>
                   {data.images.split(".").pop() === "webm" ? (
                     ""
                   ) : (
@@ -144,12 +144,12 @@ const Profile = () => {
                       alt={data.alt}
                     />
                   )}
-                </applet>
+                </span>
               </ImageListItem>
             ))}
           {showVideo &&
             resultData.map((data, id) => (
-              <applet key={id} style={{ marginLeft: "2%" }}>
+              <span key={id} style={{ marginLeft: "2%" }}>
                 {data.images.split(".").pop() === "webm" ? (
                   <iframe
                     width="45%"
@@ -163,7 +163,7 @@ const Profile = () => {
                 ) : (
                   ""
                 )}
-              </applet>
+              </span>
             ))}
         </>
       )}

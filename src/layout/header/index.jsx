@@ -61,13 +61,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const initialState = {
+  showModal: false,
+  anchorEl: null,
+  mobileMoreAnchorEl: null,
+};
+
 const Header = () => {
   const navigate = useNavigate();
-  const [showModal, setshowModal] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [notifications, setNotifications] = useState(0);
   const [data, setData] = useState([]);
+
+  const [total, setTotal] = useState({ notifications: 0, messages: 0 });
+  const [visible, setVisible] = useState(initialState);
 
   const token = localStorage.getItem("token");
 
@@ -83,8 +88,11 @@ const Header = () => {
         const resultData = await result.json();
         setData(resultData);
 
-        if(resultData) {
-          setNotifications(resultData.postData.length + resultData.commentData.length);
+        if (resultData) {
+          setTotal({
+            notifications:
+              resultData.postData.length + resultData.commentData.length,
+          });
         }
       } catch (error) {
         console.log(error);
@@ -93,19 +101,17 @@ const Header = () => {
     getNotifications();
   }, [token]);
 
-  
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen = Boolean(visible.anchorEl);
+  const isMobileMenuOpen = Boolean(visible.mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setVisible({ anchorEl: event.currentTarget });
   };
 
   const handleNotification = (e) => {
     e.preventDefault();
-    navigate('/notifications');
-    setshowModal(true);
+    navigate("/notifications");
+    setVisible({ showModal: true });
   };
 
   const handleLogout = async () => {
@@ -132,23 +138,23 @@ const Header = () => {
   };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+    setVisible({ mobileMoreAnchorEl: null });
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setVisible({ nnchorEl: null });
     handleMobileMenuClose();
     navigate("/profile");
   };
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+    setVisible({ mobileMoreAnchorEl: event.currentTarget });
   };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={visible.anchorEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -170,7 +176,7 @@ const Header = () => {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+      anchorEl={visible.mobileMoreAnchorEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -183,8 +189,7 @@ const Header = () => {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >
-    </Menu>
+    ></Menu>
   );
 
   return (
@@ -237,11 +242,8 @@ const Header = () => {
             <AddCircleSharpIcon style={{ color: "grey" }} />
           </IconButton>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
+            <IconButton size="large" color="inherit">
+              <Badge badgeContent={total.messages ? total.messages : '0'} color="error">
                 <MailIcon style={{ color: "grey" }} />
               </Badge>
             </IconButton>
@@ -250,11 +252,14 @@ const Header = () => {
               color="inherit"
               onClick={handleNotification}
             >
-              <Badge badgeContent={notifications ? notifications : '0'} color="error">
+              <Badge
+                badgeContent={total.notifications ? total.notifications : "0"}
+                color="error"
+              >
                 <NotificationsIcon style={{ color: "grey" }} />
               </Badge>
             </IconButton>
-            
+
             <IconButton
               size="large"
               edge="end"
@@ -283,7 +288,9 @@ const Header = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {showModal && <SpringModal title="Hello" showModal={showModal} data={data} />}
+      {visible.showModal && (
+        <SpringModal title="Hello" showModal={visible.showModal} data={data} />
+      )}
     </Box>
   );
 };
