@@ -2,7 +2,7 @@ import useInput from "../../../hooks/use-input";
 import { useNavigate } from "react-router";
 
 const CreatePost = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     value: title,
@@ -18,7 +18,7 @@ const CreatePost = () => {
     hasError: imageInputHasError,
     valueChangeHandler: imageChangeHandler,
     inputBlurHandler: imageBlurHandler,
-  } = useInput((value) => value.includes('http'));
+  } = useInput((value) => value.includes("http"));
 
   const {
     value: caption,
@@ -30,19 +30,23 @@ const CreatePost = () => {
 
   let formIsValid = false;
 
-  if(enteredTitleIsValid && enteredImageIsValid && enteredCaptionIsValid) {
-      formIsValid = true;
+  if (enteredTitleIsValid && enteredImageIsValid && enteredCaptionIsValid) {
+    formIsValid = true;
   }
 
   const registerHandler = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
-    if(!enteredTitleIsValid && !enteredImageIsValid && !enteredCaptionIsValid) {
-        return;
+    if (
+      !enteredTitleIsValid &&
+      !enteredImageIsValid &&
+      !enteredCaptionIsValid
+    ) {
+      return;
     }
 
-    const token = localStorage.getItem('token');
-    
+    const token = localStorage.getItem("token");
+
     const result = await fetch("/create-post", {
       method: "POST",
       headers: {
@@ -53,16 +57,15 @@ const CreatePost = () => {
         title,
         images,
         caption,
-      })
+      }),
     });
     const data = await result.json();
 
     console.log(data);
 
-    if(data.message === 'Forbidden Access Denied!') {
-        window.alert('User not verified!');
-    }
-    else if (data.status === 403 || !data) {
+    if (data.message === "Forbidden Access Denied!") {
+      window.alert("User not verified!");
+    } else if (data.status === 403 || !data) {
       window.alert("Post cannot be created!");
       console.log("Post cannot be created!");
     } else {
@@ -71,58 +74,63 @@ const CreatePost = () => {
 
       navigate("/dashboard");
     }
-
   };
-
-  const titleClasses = titleInputHasError 
-  ? "form-control invalid"
-  : "form-control";
-
-  const imageClasses = imageInputHasError
-  ? "form-control invalid" 
-  : "form-control";
-
-  const captionClasses = captionInputHasError
-  ? "form-control invalid" 
-  : "form-control";
 
   return (
     <form method="POST">
-      <div className={titleClasses}>
+      <h2>Create Post</h2>
+      <div
+        className={titleInputHasError ? "form-control invalid" : "form-control"}
+      >
         <label htmlFor="title">Title</label>
         <input
           type="text"
           id="title"
           onChange={titleChangeHandler}
-          onBlur= {titleBlurHandler}
+          onBlur={titleBlurHandler}
           value={title}
         />
         {titleInputHasError && <p>Title cannot be empty!</p>}
       </div>
-      <div className={imageClasses}>
+      <div
+        className={imageInputHasError ? "form-control invalid" : "form-control"}
+      >
         <label htmlFor="images">Image</label>
         <input
           type="text"
           id="images"
           onChange={imageChangeHandler}
-          onBlur= {imageBlurHandler}
+          onBlur={imageBlurHandler}
           value={images}
         />
         {imageInputHasError && <p>Image field cannot be empty</p>}
       </div>
-      <div className={captionClasses}>
+      <div
+        className={
+          captionInputHasError ? "form-control invalid" : "form-control"
+        }
+      >
         <label htmlFor="caption">Caption</label>
         <input
           type="text"
           id="caption"
           onChange={captionChangeHandler}
-          onBlur= {captionBlurHandler}
+          onBlur={captionBlurHandler}
           value={caption}
         />
         {captionInputHasError && <p>Put some caption!</p>}
       </div>
       <div className="form-actions">
-        <button disabled={!formIsValid} onClick={registerHandler}>Create</button>
+        <button
+          style={
+            formIsValid
+              ? { backgroundColor: "blue" }
+              : { backgroundColor: "lightblue" }
+          }
+          onClick={registerHandler}
+        >
+          Create
+        </button>
       </div>
     </form>
   );

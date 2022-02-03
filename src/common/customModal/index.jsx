@@ -9,7 +9,6 @@ const CustomModal = (props) => {
   };
 
   const handleCancel = (e) => {
-      console.log(e);
     setIsModalVisible(false);
   };
 

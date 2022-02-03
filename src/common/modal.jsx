@@ -53,6 +53,7 @@ const style = {
 const SpringModal = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(props.showModal);
+
   const handleClose = () => {
       navigate(-1);
       setOpen(props.showModal);

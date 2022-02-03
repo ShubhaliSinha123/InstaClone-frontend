@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SpringModal from "../../common/modal";
+import CustomModal from '../../common/customModal';
+import { SocialIcon } from 'react-social-icons';
+import 'antd/dist/antd.css';
 
 import { Link } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -62,7 +64,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const initialState = {
-  showModal: false,
   anchorEl: null,
   mobileMoreAnchorEl: null,
 };
@@ -70,11 +71,12 @@ const initialState = {
 const Header = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const [total, setTotal] = useState({ notifications: 0, messages: 0 });
   const [visible, setVisible] = useState(initialState);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("x-access-token");
 
   useEffect(() => {
     const getNotifications = async () => {
@@ -108,10 +110,9 @@ const Header = () => {
     setVisible({ anchorEl: event.currentTarget });
   };
 
-  const handleNotification = (e) => {
-    e.preventDefault();
-    navigate("/notifications");
-    setVisible({ showModal: true });
+  const handleNotification = () => {
+    // navigate("/notifications");
+    setShowModal(!showModal);
   };
 
   const handleLogout = async () => {
@@ -126,8 +127,8 @@ const Header = () => {
     if (result.status === 200) {
       let confirmAction = window.confirm("Are you sure, you want to logout?");
       if (confirmAction) {
-        localStorage.clear("user");
-        localStorage.clear("token");
+        localStorage.clear("instaUser");
+        localStorage.clear("x-access-token");
         navigate("/login");
       } else {
         navigate("/dashboard");
@@ -141,10 +142,13 @@ const Header = () => {
     setVisible({ mobileMoreAnchorEl: null });
   };
 
-  const handleMenuClose = () => {
-    setVisible({ nnchorEl: null });
-    handleMobileMenuClose();
+  const handleProfile = () => {
     navigate("/profile");
+  };
+
+  const handleMenuClose = () => {
+    setVisible({ anchorEl: null });
+    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -168,7 +172,7 @@ const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
@@ -209,6 +213,7 @@ const Header = () => {
               },
             }}
           >
+            <SocialIcon url="https://instagram.com/jaketrent" bgColor="white" fgColor="black" />
             <Link to="/dashboard" style={{ color: "black" }}>
               Instagram
             </Link>
@@ -250,7 +255,7 @@ const Header = () => {
             <IconButton
               size="large"
               color="inherit"
-              onClick={handleNotification}
+              onClick={() => handleNotification}
             >
               <Badge
                 badgeContent={total.notifications ? total.notifications : "0"}
@@ -288,8 +293,8 @@ const Header = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {visible.showModal && (
-        <SpringModal title="Hello" showModal={visible.showModal} data={data} />
+      {showModal && (
+        <CustomModal title="Hello" showModal={showModal} data={data} />
       )}
     </Box>
   );

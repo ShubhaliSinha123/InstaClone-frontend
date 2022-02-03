@@ -19,7 +19,7 @@ const AuthGuard = ({element, ...rest}) => {
             </Routes>
         ) : (
             <Routes>
-                {localStorage.clear('token')}
+                {localStorage.clear('x-access-token')}
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         )

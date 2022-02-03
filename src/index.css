@@ -1,15 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-
-* {
-  box-sizing: border-box;
-}
-
 html {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 body {
-  margin: 0;
   background-color: rgb(245, 245, 245);
 }
 
@@ -20,11 +13,11 @@ body {
   border-radius: 12px;
   background-color: white;
   margin: 3rem auto;
-  
 }
 
 .form-control {
   margin-bottom: 1rem;
+  border: none;
 }
 
 .form-control input,
@@ -32,25 +25,12 @@ body {
   display: block;
 }
 
-.form-control label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
 .form-control input,
 .form-control select {
   font: inherit;
   padding: 0.5rem;
-  border-radius: 4px;
-  border: 2px solid #ccc;
   width: 20rem;
   max-width: 100%;
-}
-
-.form-control input:focus {
-  outline: none;
-  border-color: #240370;
-  background-color: #e0d4fd;
 }
 
 .control-group {
@@ -59,7 +39,7 @@ body {
   flex-wrap: wrap;
 }
 
-.control-group .form-control {
+.control-group {
   min-width: 15rem;
   flex: 1;
 }
@@ -77,13 +57,12 @@ button {
 
 button:disabled,
 button:disabled:hover,
-button:disabled:active{
+button:disabled:active {
   background-color: white;
   color: black;
   border-color: #ccc;
   cursor: not-allowed;
 }
-
 
 button:hover,
 button:active {
@@ -109,7 +88,7 @@ button:active {
 }
 
 .invalid input:focus {
-  border-color: #ff8800;
+  /* border-color: #ff8800; */
   background-color: #fbe8d2;
 }
 

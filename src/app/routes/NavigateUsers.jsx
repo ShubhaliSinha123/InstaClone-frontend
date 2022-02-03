@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 
 const NavigateUsers = ({element, ...rest}) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('x-access-token');
 
     return (
         <>

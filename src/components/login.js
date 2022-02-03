@@ -52,18 +52,9 @@ const Login = (props) => {
     } else {
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.jwtoken);
-      window.alert("Successfully logged in!");
-
       navigate("/dashboard");
     }
   };
-
-  const emailInputClasses = emailInputHasError
-    ? "form-control invalid"
-    : "form-control";
-  const passwordInputClasses = passwordInputHasError
-    ? "form-control invalid"
-    : "form-control";
 
   return (
     <div className="row m-0">
@@ -91,7 +82,11 @@ const Login = (props) => {
             method="POST"
             style={{ width: "90%" }}
           >
-            <div className={emailInputClasses}>
+            <div
+              className={
+                emailInputHasError ? "form-control invalid" : "form-control"
+              }
+            >
               <input
                 type="text"
                 id="email"
@@ -104,8 +99,11 @@ const Login = (props) => {
                 <p className="error-text">Email must not be empty.</p>
               )}
             </div>
-            <br />
-            <div className={passwordInputClasses}>
+            <div
+              className={
+                passwordInputHasError ? "form-control invalid" : "form-control"
+              }
+            >
               <input
                 type="text"
                 id="password"
@@ -118,6 +116,7 @@ const Login = (props) => {
                 <p className="error-text">Password must not be empty. </p>
               )}
             </div>
+            <br />
             <div className="form-actions">
               <button
                 disabled={!formIsValid}
@@ -131,7 +130,12 @@ const Login = (props) => {
               </button>
               <br />
               <br />
-              <p style={{textAlign: "right"}}>Don't have an account? <NavLink to="/register">Register</NavLink></p>
+              <p style={{ textAlign: "right" }}>
+                Don't have an account?{" "}
+                <NavLink to="/register" style={{ textDecoration: "none" }}>
+                  Register
+                </NavLink>
+              </p>
             </div>
           </form>
         </div>

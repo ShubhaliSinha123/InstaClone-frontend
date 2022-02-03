@@ -18,6 +18,16 @@ const DashboardRoutes = [
         name: 'Profile',
         element: Profile
     },
+    {
+        url: '/profile/pictures',
+        name: 'Profile pictures',
+        element: Profile
+    },
+    {
+        url: '/profile/videos',
+        name: 'Profile videos',
+        element: Profile
+    }
 ];
 
 export default DashboardRoutes;
