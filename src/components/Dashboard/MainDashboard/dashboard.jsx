@@ -1,48 +1,48 @@
-import { useState } from "react";
-import moment from "moment";
+import { useState } from 'react';
+import moment from 'moment';
 
-import CustomModal from "../../../common/customModal";
-import classes from "../../../assets/css/custom.module.css";
+import CustomModal from '../../../common/customModal';
 
+import Card from '@mui/material/Card';
+import { CardHeader, IconButton } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import { red } from '@mui/material/colors';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import { Typography } from '@mui/material';
+import CardActions from '@mui/material/CardActions';
 
-import Card from "@mui/material/Card";
-import { CardHeader, IconButton } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import { Typography } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
-
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import { styled } from "@mui/material/styles";
-import Collapse from "@mui/material/Collapse";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { styled } from '@mui/material/styles';
+import Collapse from '@mui/material/Collapse';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(0deg)",
-  transition: theme.transitions.create("transform", {
+  transform: !expand ? 'rotate(0deg)' : 'rotate(0deg)',
+  transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
 }));
 
 const Dashboard = (props) => {
   const [expanded, setExpanded] = useState(false);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
+  const [commentList, setCommentList] = useState('');
   const [liked, setLiked] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
-  const handleExpandClick = () => {
+  const handleExpandClick = (id) => {
     setExpanded(!expanded);
+    getCommentsByPostId(id);
   };
   const getInitials = (name) => {
-    let initials = name.split(" ");
+    let initials = name.split(' ');
 
     if (initials.length > 1) {
       initials = initials.shift().charAt(0) + initials.pop().charAt(0);
@@ -56,17 +56,16 @@ const Dashboard = (props) => {
   const handleLikeStatus = async (postId) => {
     try {
       const result = await fetch(`/update-like-status/${postId}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
+          'Content-Type': 'application/json',
+          'x-access-token': token,
         },
       });
 
-      if(result.status === 201) {
+      if (result.status === 201) {
         setLiked(true);
-      } 
-      else {
+      } else {
         setLiked(false);
       }
     } catch (error) {
@@ -76,10 +75,10 @@ const Dashboard = (props) => {
 
   const createComment = async (comment, postId) => {
     const result = await fetch(`/create-comment/${postId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
+        'Content-Type': 'application/json',
+        'x-access-token': token,
       },
       body: JSON.stringify({
         comments: comment,
@@ -87,80 +86,95 @@ const Dashboard = (props) => {
     });
 
     if (result) {
-      setComment("");
+      setComment('');
+      getCommentsByPostId(postId);
       console.log(result);
+    }
+  };
+
+  const getCommentsByPostId = async (postId) => {
+    try {
+      const result = await fetch(`/comments/${postId}`, {
+        method: 'GET',
+      });
+
+      if (result) {
+        setCommentList(result);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <div key={props.id}>
       <br />
-      <Card sx={{ maxWidth: 650 }} className={classes.card}>
+      <Card sx={{ maxWidth: 650 }} className='card'>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgColor: red[500] }} aria-label="recipe">
+            <Avatar sx={{ bgColor: red[500] }} aria-label='recipe'>
               {getInitials(props.data.userId.name)}
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings">
+            <IconButton aria-label='settings'>
               <MoreVertIcon />
             </IconButton>
           }
           title={<u>{props.data.userId.name}</u>}
           subheader={props.data.title}
         />
-        {props.data.images.split(".").pop() === "webm" ? (
+        {props.data.images.split('.').pop() === 'webm' ? (
           <iframe
-            width="100%"
-            height="365px"
-            title="Video player"
+            width='100%'
+            height='365px'
+            title='Video player'
             src={props.data.images}
-            frameBorder="0"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            frameBorder='0'
+            allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
           />
         ) : (
           <CardMedia
-            component="img"
-            height="400"
+            component='img'
+            height='400'
             image={props.data.images}
             alt={props.data.alt}
           />
         )}
         <CardActions disableSpacing>
           <IconButton
-            aria-label="add to favorites"
+            aria-label='add to favorites'
             onClick={() => handleLikeStatus(props.data._id)}
           >
             {liked ? (
-              <FavoriteIcon style={{color: "red"}} />
+              <FavoriteIcon style={{ color: 'red' }} />
             ) : (
-              <FavoriteBorderOutlinedIcon fontSize="medium" />
+              <FavoriteBorderOutlinedIcon fontSize='medium' />
             )}
           </IconButton>
           <ExpandMore
             expand={expanded}
-            onClick={handleExpandClick}
+            onClick={() => handleExpandClick(props.data._id)}
             aria-expanded={expanded}
-            aria-label="comment"
+            aria-label='comment'
           >
-            <ChatBubbleOutlineIcon fontSize="medium" />
+            <ChatBubbleOutlineIcon fontSize='medium' />
           </ExpandMore>
         </CardActions>
-        <CardContent style={{ marginTop: "-4%" }}>
-          <Typography variant="body2" color="black">
+        <CardContent style={{ marginTop: '-4%' }}>
+          <Typography variant='body2' color='black'>
             @{props.data.userId.name.toLowerCase()} -{props.data.caption}
           </Typography>
           <Typography
-            variant="body1"
-            color="text.secondary"
+            variant='body1'
+            color='text.secondary'
             style={{ fontSize: 13 }}
           >
-            ~{moment(props.data.createdAt).startOf("seconds").fromNow()}
+            ~{moment(props.data.createdAt).startOf('seconds').fromNow()}
           </Typography>
         </CardContent>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout='auto' unmountOnExit>
           <div key={props.id}>
             <CardContent key={props.id}>
               <ul>
@@ -170,9 +184,9 @@ const Dashboard = (props) => {
               </ul>
               <u>
                 <input
-                  className={classes.input}
-                  type="text"
-                  placeholder="Add a new comment"
+                  className='input'
+                  type='text'
+                  placeholder='Add a new comment'
                   value={comment}
                   onChange={(e) => {
                     setComment(e.target.value);
@@ -181,9 +195,9 @@ const Dashboard = (props) => {
               </u>
               <button
                 style={{
-                  backgroundColor: "white",
-                  color: "blue",
-                  border: "none",
+                  backgroundColor: 'white',
+                  color: 'blue',
+                  border: 'none',
                   fontSize: 13,
                 }}
                 onClick={() => createComment(comment, props.data._id)}

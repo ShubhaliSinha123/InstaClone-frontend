@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import "./index.css";
 import App from "./app";
+import "./assets/css/custom.module.css";
 // import { SocialIcon } from 'react-social-icons';
 
 ReactDOM.render(

@@ -8,23 +8,14 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import TocIcon from "@mui/icons-material/Toc";
 import ImageListItem from "@mui/material/ImageListItem";
 
-const initialState = {
-  resultData: [],
-  isLoading: false,
-  hasError: null,
-  showPicture: true,
-  showVideo: false
-};
 const Profile = () => {
   const navigate = useNavigate();
-  // const [state, setState] = useState(initialState);
-
   const [resultData, setResultData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(null);
   const [showPicture, setShowPicture] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
-  
+
   const data = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
@@ -55,14 +46,14 @@ const Profile = () => {
     e.preventDefault();
     setShowPicture(true);
     setShowVideo(false);
-    navigate('/profile/pictures');
+    navigate("/profile/pictures");
   };
 
   const handleVideo = (e) => {
     e.preventDefault();
     setShowVideo(true);
     setShowPicture(false);
-    navigate('/profile/videos');
+    navigate("/profile/videos");
   };
 
   const getInitials = (name) => {
@@ -103,6 +94,7 @@ const Profile = () => {
                     marginLeft: "2%",
                     border: "1px solid #ccc",
                   }}
+                  onClick={() => navigate("/edit-profile")}
                 >
                   Edit profile
                 </button>

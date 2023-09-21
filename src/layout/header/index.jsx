@@ -76,7 +76,7 @@ const Header = () => {
   const [total, setTotal] = useState({ notifications: 0, messages: 0 });
   const [visible, setVisible] = useState(initialState);
 
-  const token = localStorage.getItem("x-access-token");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getNotifications = async () => {
@@ -153,6 +153,27 @@ const Header = () => {
 
   const handleMobileMenuOpen = (event) => {
     setVisible({ mobileMoreAnchorEl: event.currentTarget });
+  };
+
+  const handleSearch = async (event) => {
+    try {
+      const result = await fetch(`/search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token,
+        },
+        body: JSON.stringify({
+          searchKey: event.target.value,
+        }),
+      });
+  
+      if (result) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const menuId = "primary-search-account-menu";
@@ -232,6 +253,7 @@ const Header = () => {
               style={{ color: "grey" }}
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onInput={handleSearch}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />

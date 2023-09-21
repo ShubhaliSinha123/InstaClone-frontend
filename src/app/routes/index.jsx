@@ -11,7 +11,7 @@ const MainRouter = (props) => {
 
     return (
         <Routes>
-            <Route exact path='/' element={<Navigate to="/login" />} />
+            {/* <Route exact path='/' element={<Navigate to="/login" />} /> */}
             <Route 
             path="/login/*"
             element={
@@ -46,7 +46,7 @@ const MainRouter = (props) => {
                 />
             }
             />
-            <Route path='/logout' element={<Login/>} />
+            {/* <Route path='/logout' element={<Login/>} /> */}
         </Routes>
     )
 };
